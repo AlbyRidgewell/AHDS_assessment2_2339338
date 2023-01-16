@@ -1,4 +1,0 @@
-BMX_D.csv filter=lfs diff=lfs merge=lfs -text
-BPX_D.csv filter=lfs diff=lfs merge=lfs -text
-DEMO_D.csv filter=lfs diff=lfs merge=lfs -text
-PAXRAW_D.csv filter=lfs diff=lfs merge=lfs -text
