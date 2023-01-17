@@ -4,13 +4,15 @@
 #
 # Purpose: To clean the datasets BMX_D.csv and BPX_D.csv by confirming the patient IDs 
 # match, merging the datasets, keeping only the required variables, 
-# checking for missing values and extreme values, and creating a bmi categorical
-# variable and systolic and diastolic values averaged over the three measurements. 
+# checking for missing values and extreme values, creating a bmi categorical
+# variable, creating a hypertension variable, and systolic and diastolic values averaged over the three measurements. 
 #
 # Data in: data_raw/BMX_D.csv and data_raw/BPX_D.csv
 # Data out: data_clean/bmx_bpx.csv
 #
 ###############################################################################
+
+rm(list=ls())
 
 # Load the datasets ###########################################################
 bmx <- read.csv(file = "data_raw/BMX_D.csv")
@@ -86,6 +88,7 @@ bmx_bpx_complete$BMXBMI_cat <- cut(bmx_bpx_complete$BMXBMI,
                                    breaks = c(0, 18, 24, 29, 100),
                                    labels = c("Underweight", "Healthy", 
                                               "Overweight", "Obese"))
+
 table(bmx_bpx_complete$BMXBMI_cat)
 
 # Create systolic and diastolic variables averaged over the three measurements #
@@ -94,6 +97,10 @@ bmx_bpx_complete$BPXSY_avg <- ((bmx_bpx_complete$BPXSY1 + bmx_bpx_complete$BPXSY
 
 bmx_bpx_complete$BPXDI_avg <- ((bmx_bpx_complete$BPXDI1 + bmx_bpx_complete$BPXDI2 
                                 + bmx_bpx_complete$BPXDI3) / 3)
+
+# Create a hypertension yes/no variable ########################################
+bmx_bpx_complete$hypertension <- (bmx_bpx_complete$BPXSY_avg >= 140 |
+                                    bmx_bpx_complete$BPXDI_avg >= 90)
 
 # Output clean dataset ########################################################
 write.csv(bmx_bpx_complete, "data_clean/bmx_bpx.csv", row.names = FALSE)
