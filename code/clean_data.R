@@ -5,10 +5,13 @@
 # Purpose: To clean the datasets BMX_D.csv and BPX_D.csv by confirming the patient IDs 
 # match, merging the datasets, keeping only the required variables, 
 # checking for missing values and extreme values, creating a bmi categorical
-# variable, creating a hypertension variable, and systolic and diastolic values averaged over the three measurements. 
+# variable, creating a hypertension variable, and systolic and diastolic values 
+# averaged over the three measurements. Then also exports a dataset cotaining 
+# only the variables I will use for the histgrams app. 
 #
 # Data in: data_raw/BMX_D.csv and data_raw/BPX_D.csv
 # Data out: data_clean/bmx_bpx.csv
+#           data_clean/bmx_bpx_for_histograms.csv
 #
 ###############################################################################
 
@@ -105,9 +108,16 @@ bmx_bpx_complete$hypertension <- (bmx_bpx_complete$BPXSY_avg >= 140 |
 # Output clean dataset ########################################################
 write.csv(bmx_bpx_complete, "data_clean/bmx_bpx.csv", row.names = FALSE)
 
+# Create dataset containing only the variables I will use for the histograms app 
+bmx_bpx_complete_histograms <- subset(bmx_bpx_complete, 
+                                      select = c(BMXWT, BMXHT, BMXBMI, 
+                                                 BPXSY1, BPXDI1, BPXSY2, BPXDI2, 
+                                                 BPXSY3, BPXDI3, BPXSY_avg, 
+                                                 BPXDI_avg))
 
-
-
+# Output histograms dataset ####################################################
+write.csv(bmx_bpx_complete_histograms, "data_clean/bmx_bpx_for_histograms.csv",
+          row.names = FALSE)
 
 
 
