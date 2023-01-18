@@ -6,12 +6,12 @@
 #
 # Data in: data_clean/bmx_bpx.csv
 #
-# Data out: figures/height_weight_scatter_plot.pdf
-#           figures/sbp_bmi_scatter_plot.pdf
-#           figures/dbp_bmi_scatter_plot.pdf
-#           figures/bmi_hypertension_violin_plot.pdf
-#           figures/sbp_bmi_cat_violin_plot.pdf
-#           figures/hypertension_bmi_cat_barplot.pdf
+# Data out: figures/height_weight_scatter_plot.png
+#           figures/sbp_bmi_scatter_plot.png
+#           figures/dbp_bmi_scatter_plot.png
+#           figures/bmi_hypertension_violin_plot.png
+#           figures/sbp_bmi_cat_violin_plot.png
+#           figures/hypertension_bmi_cat_barplot.png
 #
 ###############################################################################
 
@@ -43,8 +43,10 @@ bmx_bpx$BMXBMI_cat <- factor(bmx_bpx$BMXBMI_cat,
 #       y = "Standing height (cm)") +
 #  scale_color_manual(values = c("blue", "green", "orange", "red"))
 
-pdf.options(reset = TRUE, onefile = FALSE)
-pdf("figures/height_weight_scatter_plot.pdf")
+# pdf.options(reset = TRUE, onefile = FALSE)
+
+
+png("figures/height_weight_scatter_plot.png", units="in", width=7, height=7, res=300)
 
 ggscatterhist(
   bmx_bpx, x = "BMXWT", y = "BMXHT",
@@ -61,7 +63,7 @@ ggscatterhist(
 dev.off()
 
 # Plot SBP against BMI #########################################################
-pdf("figures/sbp_bmi_scatter_plot.pdf")
+png("figures/sbp_bmi_scatter_plot.png", units="in", width=7, height=7, res=300)
 
 ggplot(bmx_bpx, aes(BMXBMI, BPXSY_avg)) +
   geom_point(size = 0.6, colour = "blue", alpha = 0.5) +
@@ -73,7 +75,7 @@ ggplot(bmx_bpx, aes(BMXBMI, BPXSY_avg)) +
 dev.off()
 
 # Plot DBP against BMI #########################################################
-pdf("figures/dbp_bmi_scatter_plot.pdf")
+png("figures/dbp_bmi_scatter_plot.png", units="in", width=7, height=7, res=300)
 
 ggplot(bmx_bpx, aes(BMXBMI, BPXDI_avg)) +
   geom_point(size = 0.6, colour = "blue", alpha = 0.5) +
@@ -85,7 +87,7 @@ ggplot(bmx_bpx, aes(BMXBMI, BPXDI_avg)) +
 dev.off()
 
 # Violin plot for BMI and hypertension #########################################
-pdf("figures/bmi_hypertension_violin_plot.pdf")
+png("figures/bmi_hypertension_violin_plot.png", units="in", width=7, height=7, res=300)
 
 ggplot(bmx_bpx, aes(hypertension, BMXBMI, col = hypertension)) +
   geom_violin() +
@@ -101,7 +103,7 @@ ggplot(bmx_bpx, aes(hypertension, BMXBMI, col = hypertension)) +
 dev.off()
 
 # Violin plot for SBP for each BMI category ####################################
-pdf("figures/sbp_bmi_cat_violin_plot.pdf")
+png("figures/sbp_bmi_cat_violin_plot.png", units="in", width=7, height=7, res=300)
 
 ggplot(bmx_bpx, aes(BMXBMI_cat, BPXSY_avg, col = BMXBMI_cat)) +
   geom_violin() +
@@ -116,7 +118,7 @@ ggplot(bmx_bpx, aes(BMXBMI_cat, BPXSY_avg, col = BMXBMI_cat)) +
 dev.off()
 
 # Stacked barplot for BMI cat and hypertension ###############################
-pdf("figures/hypertension_bmi_cat_barplot.pdf")
+png("figures/hypertension_bmi_cat_barplot.png", units="in", width=7, height=7, res=300)
 
 ggplot(bmx_bpx, aes(BMXBMI_cat, fill = hypertension)) +
   geom_bar() +

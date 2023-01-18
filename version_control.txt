@@ -1,0 +1,23 @@
+## Version control
+
+Git and GitHub were used throughout. To provide evidence of this without breaking anonymity, I will describe the steps I took. 
+
+I initialised the repository and initially pushed this repository to GitHub using the following commands:
+
+git init
+git remote add origin https://github.com/...
+git branch -M master
+git push -u origin master
+
+Then I regularly pushed my repository to GitHub using the following commands, commenting the changes I made each time:
+
+git add .
+git commit -m "comment"
+git push -u origin master
+
+I checked the status at each step using the following:
+
+git status
+
+I initially used Git Large File Storage for the large PAXRAW_D.csv file, but no longer needed to once I decided not to use that data set. 
+
