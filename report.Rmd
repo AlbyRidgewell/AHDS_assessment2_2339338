@@ -8,22 +8,28 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
 ## Data cleaning
 
-I uesd Body Measures (BMX_D) and Blood Pressure (BPX_D). I was interested in the relationship between BMI and blood pressure. 
 
-I then kept only the variables I considered necessary. I chose to use the first three readings for SBP and DBP since they all had over 6000 recorded observations, whereas the fourth reading had less than 2000. 
+I uesd Body Measures (BMX_D) and Blood Pressure (BPX_D). 
+
+I kept only the variables I considered necessary. I chose to use the first three readings for SBP and DBP since they all had over 6000 recorded observations, whereas the fourth reading had less than 2000. 
 
 I merged the two data sets. 
 
-I checked for missing values. One quarter of the participants had at least one missing value. I chose to drop them, but this may cause bias. 
+One quarter of the participants had at least one missing value. I chose to drop them, but this may cause bias. 
 
 I checked for extreme values. Bodyweights of 20 kg and 201 kg, heights of 118 cm and 204 cm and BMI values of 13 and 57 are plausible (1)(2). SBP of 74 mmHg and 234 mmHg are medical emergencies, but possible (3)(4). DBP readings of 0 and 120 are possible (5)(6). 
 
 I created variables for the averages of the three SBP and three DBP measurements. Also, since BMI and blood pressure have clinically important thresholds (5), I created a BMI categorical variable and a hypertension variable. 
 
+I used lintr and styler to check styling and style my code. 
+
 
 ## Data exploration
+
 
 I created a Shiny application called histograms_app.R, located in the 'code' directory. It creates a histogram of whichever variable you select. You can also view the data set below this. Note, this code is heavily inspired by the code we wrote in the practical in week 10. 
 
@@ -31,6 +37,7 @@ Observe, weight appears normally distributed around 80 kg, height around 170cm a
 
 
 ## Data visualisations
+
 
 I wanted to visualise the relationship between BMI and blood pressure in multiple ways. I wanted to make use of the continuous and categorical measures of BMI, and I wanted to use SBP, DBP and the binary hypertension variable. Also, I wanted to visualise the relationship between weight, height and BMI. 
 
@@ -95,6 +102,7 @@ The median SBP, and the densest part of the distribution, increase as you ascend
 I used a stacked barplot to more effectively convey the change in proportion of hypertension between the BMI categories. I put those with hypertension at the bottom because it makes them easier to compare. 
 
 The proportion of participants with hypertension increases as we ascend the BMI categories. 
+
 
 ***
 

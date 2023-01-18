@@ -2,12 +2,12 @@
 #
 # File name: clean_data.R
 #
-# Purpose: To clean the datasets BMX_D.csv and BPX_D.csv by confirming the patient IDs 
-# match, merging the datasets, keeping only the required variables, 
+# Purpose: To clean the datasets BMX_D.csv and BPX_D.csv by confirming the patient IDs
+# match, merging the datasets, keeping only the required variables,
 # checking for missing values and extreme values, creating a bmi categorical
-# variable, creating a hypertension variable, and systolic and diastolic values 
-# averaged over the three measurements. Then also exports a dataset cotaining 
-# only the variables I will use for the histgrams app. 
+# variable, creating a hypertension variable, and systolic and diastolic values
+# averaged over the three measurements. Then also exports a dataset cotaining
+# only the variables I will use for the histgrams app.
 #
 # Data in: data_raw/BMX_D.csv and data_raw/BPX_D.csv
 # Data out: data_clean/bmx_bpx.csv
@@ -15,7 +15,7 @@
 #
 ###############################################################################
 
-rm(list=ls())
+rm(list = ls())
 
 # Load the datasets ###########################################################
 bmx <- read.csv(file = "data_raw/BMX_D.csv")
@@ -34,11 +34,13 @@ table(same_seqn)
 
 # Keep only the variables I need ###############################################
 bmx_subset <- subset(bmx, select = c(SEQN, BMXWT, BMXHT, BMXBMI))
-bpx_subset <- subset(bpx, select = c(SEQN, BPXSY1, BPXDI1, BPXSY2, BPXDI2, 
-                                     BPXSY3, BPXDI3))
+bpx_subset <- subset(bpx, select = c(
+  SEQN, BPXSY1, BPXDI1, BPXSY2, BPXDI2,
+  BPXSY3, BPXDI3
+))
 
 # Combine the two datasets #####################################################
-bmx_bpx <- merge(bmx_subset, bpx_subset, by = 'SEQN')
+bmx_bpx <- merge(bmx_subset, bpx_subset, by = "SEQN")
 
 # Check new dataset
 str(bmx_bpx)
@@ -46,8 +48,8 @@ str(bmx_bpx)
 # Check for missing values ####################################################
 bmx_bpx_missing <- is.na.data.frame(bmx_bpx)
 table(bmx_bpx_missing)
-#FALSE  TRUE 
-#75756 23744 
+# FALSE  TRUE
+# 75756 23744
 
 # Drop participants with any missing values ###################################
 bmx_bpx_complete <- na.omit(bmx_bpx)
@@ -55,8 +57,8 @@ bmx_bpx_complete <- na.omit(bmx_bpx)
 # Check again for missing values ##############################################
 bmx_bpx_complete_missing <- is.na.data.frame(bmx_bpx_complete)
 table(bmx_bpx_complete_missing)
-#FALSE 
-#51440 
+# FALSE
+# 51440
 
 # Check for extreme values ####################################################
 summary(bmx_bpx_complete$BMXWT)
@@ -87,37 +89,43 @@ summary(bmx_bpx_complete$BPXDI3)
 # min=0 is possible but very rare. max=118 is possible
 
 # Create a categorical BMI variable ############################################
-bmx_bpx_complete$BMXBMI_cat <- cut(bmx_bpx_complete$BMXBMI, 
-                                   breaks = c(0, 18, 24, 29, 100),
-                                   labels = c("Underweight", "Healthy", 
-                                              "Overweight", "Obese"))
+bmx_bpx_complete$BMXBMI_cat <- cut(bmx_bpx_complete$BMXBMI,
+  breaks = c(0, 18, 24, 29, 100),
+  labels = c(
+    "Underweight", "Healthy",
+    "Overweight", "Obese"
+  )
+)
 
 table(bmx_bpx_complete$BMXBMI_cat)
 
 # Create systolic and diastolic variables averaged over the three measurements #
-bmx_bpx_complete$BPXSY_avg <- ((bmx_bpx_complete$BPXSY1 + bmx_bpx_complete$BPXSY2 
-                                + bmx_bpx_complete$BPXSY3) / 3)
+bmx_bpx_complete$BPXSY_avg <- ((bmx_bpx_complete$BPXSY1 + bmx_bpx_complete$BPXSY2
+  + bmx_bpx_complete$BPXSY3) / 3)
 
-bmx_bpx_complete$BPXDI_avg <- ((bmx_bpx_complete$BPXDI1 + bmx_bpx_complete$BPXDI2 
-                                + bmx_bpx_complete$BPXDI3) / 3)
+bmx_bpx_complete$BPXDI_avg <- ((bmx_bpx_complete$BPXDI1 + bmx_bpx_complete$BPXDI2
+  + bmx_bpx_complete$BPXDI3) / 3)
 
 # Create a hypertension yes/no variable ########################################
 bmx_bpx_complete$hypertension <- (bmx_bpx_complete$BPXSY_avg >= 140 |
-                                    bmx_bpx_complete$BPXDI_avg >= 90)
+  bmx_bpx_complete$BPXDI_avg >= 90)
 
 # Output clean dataset ########################################################
 write.csv(bmx_bpx_complete, "data_clean/bmx_bpx.csv", row.names = FALSE)
 
-# Create dataset containing only the variables I will use for the histograms app 
-bmx_bpx_complete_histograms <- subset(bmx_bpx_complete, 
-                                      select = c(BMXWT, BMXHT, BMXBMI, 
-                                                 BPXSY1, BPXDI1, BPXSY2, BPXDI2, 
-                                                 BPXSY3, BPXDI3, BPXSY_avg, 
-                                                 BPXDI_avg))
+# Create dataset containing only the variables I will use for the histograms app
+bmx_bpx_complete_histograms <- subset(bmx_bpx_complete,
+  select = c(
+    BMXWT, BMXHT, BMXBMI,
+    BPXSY1, BPXDI1, BPXSY2, BPXDI2,
+    BPXSY3, BPXDI3, BPXSY_avg,
+    BPXDI_avg
+  )
+)
 
 # Output histograms dataset ####################################################
 write.csv(bmx_bpx_complete_histograms, "data_clean/bmx_bpx_for_histograms.csv",
-          row.names = FALSE)
-
+  row.names = FALSE
+)
 
 

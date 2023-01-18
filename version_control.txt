@@ -1,4 +1,4 @@
-## Version control
+## Version control ##################################################################
 
 Git and GitHub were used throughout. To provide evidence of this without breaking anonymity, I will describe the steps I took. 
 
